@@ -1,34 +1,11 @@
-# Updates!
+## Getting Started
 
-This new version contains an integration with redux-toolkit instead of redux and it's witch Typescript :)
+First, run the development server:
 
-# Next.js Ecommerce
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-This repo contains a work in progress Ecommerce responsive made with Next.js, Redux, Redux-persist, Hooks, SCSS and BEM. If you like it please give it a star :)
-## Design
-
-[This](https://www.xdguru.com/free-xd-ecommerce-ui-kit-by-iceo/) is the design of the project.
-
-## Available pages
-
-- Home page: /
-- Products page: /products
-- Product single page: /product/1
-- Cart page: /cart
-- Login page: /login
-- Register page: /register
-- 404 page: /page-not-found
-
-## Screenshots
-
-![Next Ecommerce screenshot](https://lucaspulliese.com/wp-content/uploads/2020/09/ecommerce-1.jpg)
-
-![Next Ecommerce screenshot](https://lucaspulliese.com/wp-content/uploads/2020/09/ecommerce-2.jpg)
-
-## Next TO-DO
-
-- [X] Checkout page
-- [ ] Add Facebook login
-- [ ] Add Google login
-- [ ] Add Proptypes on components
-- [ ] Use CSS variables instead of static colors
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
