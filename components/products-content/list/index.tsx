@@ -19,11 +19,11 @@ const ProductsContent = () => {
           {data.map((item: ProductTypeList)  => (
             <ProductItem 
               id={item.id} 
-              name={item.name}
+              title={item.title}
               price={item.price}
-              color={item.color}
-              currentPrice={item.currentPrice}
-              key={item.id}
+              thumbnail={item.thumbnail}
+              key={item.slug}
+              slug={item.slug}
               images={item.images} 
             />
           ))}

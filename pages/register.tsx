@@ -13,8 +13,9 @@ const RegisterPage = () => (
 
         <div className="form-block">
           <h2 className="form-block__title">Create an account and discover the benefits</h2>
-          <p className="form-block__description">Lorem Ipsum is simply dummy text of the printing 
-          and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+          <p className="form-block__description">Welcome to HoneyComm! <br/>
+Brand, Market & Dropship Your Own Supplements On-Demand From The U.S. with ZERO Upfront Inventory costs.
+</p>
           
           <form className="form">
             <div className="form__input-row">

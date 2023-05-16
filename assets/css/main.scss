@@ -1683,7 +1683,7 @@ h1,h2,h3,h4,h5 {
       width: 100%;
       margin-bottom: 60px;
       @include breakpoint(phone) {
-        width: 48%;
+        width: 100%;
         margin-bottom: 0;
       }
       i {
@@ -2755,7 +2755,7 @@ h1,h2,h3,h4,h5 {
       display: flex;
       align-items: center;
       .checkout-item__data {
-        width: 110px;
+        width: 180px;
         h3 {
           font-weight: 600;
           font-size: 14px;

@@ -18,32 +18,26 @@ export type ReviewType = {
 
 export type ProductType = {
   id: string;
-  name: string;
-  thumb: string;
-  price: string;
-  count: number;
-  color: string;
-  size: string;
-  images: string[];
-  discount?: string;
-  currentPrice: number;
-  punctuation: PunctuationType;
-  reviews: ReviewType[];
+  slug: string;
+  title: string;
+  price: number;
+  images: any[];
+  description: string;
+  thumbnail: string;
 }
 
 export type ProductTypeList = {
   id: string;
-  name: string;
-  price: string;
-  color: string;
-  images: string[];
-  discount?: string;
-  currentPrice?: number;
+  slug: string;
+  title: string;
+  price: number;
+  images: any[];
+  thumbnail: string;
 }
 
 export type ProductStoreType = {
   id: string;
-  name: string;
+  title: string;
   thumb: string;
   price: number;
   count: number;

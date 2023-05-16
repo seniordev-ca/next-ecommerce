@@ -29,8 +29,6 @@ const ShoppingCart = () => {
               <tbody>
                 <tr>
                   <th style={{textAlign: 'left'}}>Product</th>
-                  <th>Color</th>
-                  <th>Size</th>
                   <th>Ammount</th>
                   <th>Price</th>
                   <th></th>
@@ -41,7 +39,7 @@ const ShoppingCart = () => {
                     key={item.id}
                     id={item.id}
                     thumb={item.thumb}
-                    name={item.name}
+                    title={item.title}
                     color={item.color}
                     price={item.price}
                     size={item.size}
@@ -59,7 +57,6 @@ const ShoppingCart = () => {
       
         <div className="cart-actions">
           <a href="/products" className="cart__btn-back"><i className="icon-left"></i> Continue Shopping</a>
-          <input type="text" placeholder="Promo Code" className="cart__promo-code" />
 
           <div className="cart-actions__items-wrapper">
             <p className="cart-actions__total">Total cost <strong>${priceTotal().toFixed(2)}</strong></p>

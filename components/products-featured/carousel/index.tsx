@@ -40,13 +40,12 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
           <SwiperSlide key={item.id}>
             <ProductItem 
               id={item.id} 
-              name={item.name}
+              title={item.title}
               price={item.price}
-              color={item.color}
-              discount={item.discount}
-              currentPrice={item.currentPrice}
               key={item.id}
               images={item.images} 
+              thumbnail={item.thumbnail}
+              slug={item.slug}
             />
           </SwiperSlide>
         ))}

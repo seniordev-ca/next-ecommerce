@@ -1,11 +1,36 @@
+import React, { useState, ChangeEvent } from 'react';
 import Layout from '../../layouts/Main';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CheckoutStatus from '../../components/checkout-status';
 import CheckoutItems from '../../components/checkout/items';
+import { postData } from '../../utils/services'; 
+import { server } from '../../utils/server'; 
 import { RootState } from 'store';
+import { clearCart } from 'store/reducers/cart';
+
+interface ShippingInfo {
+  email: string;
+  address: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  phoneNumber: string;
+  postalCode: string;
+}
 
 const CheckoutPage = () => {
+  const dispatch = useDispatch();
+  const [shippingInfo, setShippingInfo] = useState<ShippingInfo>({
+    email: '',
+    address: '',
+    firstName: '',
+    lastName: '',
+    city: '',
+    phoneNumber: '',
+    postalCode: ''
+  });
 
+  const { cartItems } = useSelector((state: RootState) => state.cart);
   const priceTotal = useSelector((state: RootState) => {
     const cartItems = state.cart.cartItems;
     let totalPrice = 0;
@@ -15,6 +40,37 @@ const CheckoutPage = () => {
 
     return totalPrice;
   })
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setShippingInfo((prevShippingInfo) => ({
+      ...prevShippingInfo,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    // Check if any field is empty
+    const isEmpty = Object.values(shippingInfo).some((value) => value === '');
+    if (isEmpty) {
+      alert('Please fill in all shipping fields.');
+      return;
+    }
+    // Place Order logic here
+    postData(`${server}/api/checkout`, {
+      shippingInfo,
+      cartItems
+    }).then(res => res.data)
+    .then(data => {
+      alert(`Your Order Number is here: ${data.order_number}`);
+      dispatch(clearCart());
+      setTimeout(() => {
+        window.location.href = '/products';
+      }, 500);
+    });
+
+  };
+
 
   return (
     <Layout>
@@ -27,54 +83,98 @@ const CheckoutPage = () => {
 
           <div className="checkout-content">
             <div className="checkout__col-6">
-              <div className="checkout__btns">
-                <button className="btn btn--rounded btn--yellow">Log in</button>
-                <button className="btn btn--rounded btn--border">Sign up</button>
-              </div>
-
               <div className="block">
                 <h3 className="block__title">Shipping information</h3>
                 <form className="form">
                   <div className="form__input-row form__input-row--two">
                     <div className="form__col">
-                      <input className="form__input form__input--sm" type="text" placeholder="Email" />
+                      <input 
+                        className="form__input form__input--sm" 
+                        type="email"
+                        name="email"
+                        value={shippingInfo.email}
+                        onChange={handleInputChange}
+                        placeholder="Email" 
+                      />
                     </div>
 
                     <div className="form__col">
-                      <input className="form__input form__input--sm" type="text" placeholder="Address" />
+                      <input 
+                        className="form__input form__input--sm" 
+                        type="text" 
+                        name="address"
+                        value={shippingInfo.address}
+                        onChange={handleInputChange}
+                        placeholder="Address" 
+                      />
                     </div>
                   </div>
                   
                   <div className="form__input-row form__input-row--two">
                     <div className="form__col">
-                      <input className="form__input form__input--sm" type="text" placeholder="First name" />
+                      <input 
+                        className="form__input form__input--sm" 
+                        type="text" 
+                        name="firstName"
+                        value={shippingInfo.firstName}
+                        onChange={handleInputChange}
+                        placeholder="First name" 
+                      />
                     </div>
 
                     <div className="form__col">
-                      <input className="form__input form__input--sm" type="text" placeholder="City" />
+                      <input 
+                        className="form__input form__input--sm" 
+                        type="text" 
+                        name="city"
+                        value={shippingInfo.city}
+                        onChange={handleInputChange}
+                        placeholder="City" 
+                      />
                     </div>
                   </div>
                   
                   <div className="form__input-row form__input-row--two">
                     <div className="form__col">
-                      <input className="form__input form__input--sm" type="text" placeholder="Last name" />
+                      <input 
+                        className="form__input form__input--sm" 
+                        type="text"
+                        name="lastName"
+                        value={shippingInfo.lastName}
+                        onChange={handleInputChange}
+                        placeholder="Last name" 
+                      />
                     </div>
 
                     <div className="form__col">
-                      <input className="form__input form__input--sm" type="text" placeholder="Postal code / ZIP" />
+                      <input 
+                        className="form__input form__input--sm" 
+                        type="text" 
+                        placeholder="Postal code / ZIP"
+                        name="postalCode"
+                        value={shippingInfo.postalCode}
+                        onChange={handleInputChange}
+                      />
                     </div>
                   </div>
 
                   <div className="form__input-row form__input-row--two">
                     <div className="form__col">
-                      <input className="form__input form__input--sm" type="text" placeholder="Phone number" />
+                      <input 
+                        className="form__input form__input--sm"
+                        type="tel"
+                        name="phoneNumber"
+                        value={shippingInfo.phoneNumber}
+                        onChange={handleInputChange}
+                        placeholder="Phone number" 
+                      />
                     </div>
 
                     <div className="form__col">
                       <div className="select-wrapper select-form">
                         <select>
-                          <option>Country</option>
-                          <option value="Argentina">Argentina</option>
+                          {/* <option>Country</option> */}
+                          <option value="Canada">Canada</option>
                         </select>
                       </div>
                     </div>
@@ -83,55 +183,7 @@ const CheckoutPage = () => {
               </div>
             </div>
             
-            <div className="checkout__col-4">
-              <div className="block">
-                <h3 className="block__title">Payment method</h3>
-                <ul className="round-options round-options--three">
-                  <li className="round-item">
-                    <img src="/images/logos/paypal.png" alt="Paypal" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/visa.png" alt="Paypal" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/mastercard.png" alt="Paypal" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/maestro.png" alt="Paypal" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/discover.png" alt="Paypal" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/ideal-logo.svg" alt="Paypal" />
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="block">
-                <h3 className="block__title">Delivery method</h3>
-                <ul className="round-options round-options--two">
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/inpost.svg" alt="Paypal" />
-                    <p>$20.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/dpd.svg" alt="Paypal" />
-                    <p>$12.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/dhl.svg" alt="Paypal" />
-                    <p>$15.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/maestro.png" alt="Paypal" />
-                    <p>$10.00</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            
-            <div className="checkout__col-2">
+            <div className="checkout__col-6">
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
                 <CheckoutItems />
@@ -148,7 +200,7 @@ const CheckoutPage = () => {
             <a href="/cart" className="cart__btn-back"><i className="icon-left"></i> Back</a>
             <div className="cart-actions__items-wrapper">
               <button type="button" className="btn btn--rounded btn--border">Continue shopping</button>
-              <button type="button" className="btn btn--rounded btn--yellow">Proceed to payment</button>
+              <button type="button" className="btn btn--rounded btn--yellow" onClick={handleSubmit}>Place Order</button>
             </div>
           </div>
         </div>
