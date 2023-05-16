@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
 import { ProductTypeList } from 'types';
+import ImageWithPlaceholder from 'components/common/ImageWithPlaceholder'
 
 const ProductItem = ({ thumbnail, images, id, title, price, slug }: ProductTypeList) => {
   const dispatch = useDispatch();
@@ -26,7 +27,10 @@ const ProductItem = ({ thumbnail, images, id, title, price, slug }: ProductTypeL
 
         <Link href={`/product/${slug}`}>
           <a>
-            <img src={thumbnail ? thumbnail : (images ? images[0].image : '')} alt="product" />
+            <ImageWithPlaceholder
+              imageUrl={thumbnail ? thumbnail : (images ? images[0].image : '')} 
+              alt="product"
+            />
           </a>
         </Link>
       </div>
